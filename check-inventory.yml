@@ -1,0 +1,24 @@
+- name: Compare Store Inventory to Shopping List
+  hosts: localhost
+  connection: local
+  vars_files:
+  - shoppinglist.yml
+  - store-inventory.yml
+  tasks:
+    - name: Convert Store Inventory to Searchable Dictionary
+      set_fact:
+        store_inventory: "{{ store_inventory|default({}) | combine( {item.type: item.quantity} ) }}"
+      loop: "{{ inventory|flatten(levels=1) }}"
+      
+    - name: Search Food Items in Store Inventory
+      set_fact:
+        items_in_store: "{{ items_in_store|default([]) + [ item.key ] }}"
+      loop: "{{ foods|dict2items }}"
+      loop_control:
+        label: "Checking if {{ item.key }} exists in store inventory"
+      when: "item.key in store_inventory and store_inventory[item.key] >= item.value"
+    
+    - debug:
+        msg: "The following items are available and in stock from your shopping list: {{ items_in_store | join(',') }}"
+      when: "items_in_store|length > 0"
+  
