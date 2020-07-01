@@ -18,7 +18,8 @@
         label: "Checking if {{ item.key }} exists in store inventory"
       when: "item.key in store_inventory and store_inventory[item.key] >= item.value"
     
-    - debug:
-        msg: "The following items are available and in stock from your shopping list: {{ items_in_store | join(',') }}"
+    - name: Print Available Items in Store
+      debug:
+        msg: "{{ items_in_store | join(',') }}"
       when: "items_in_store|length > 0"
   
