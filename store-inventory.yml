@@ -1,0 +1,16 @@
+---
+inventory:
+  - type: lemons
+    quantity: 100
+  - type: oranges
+    quantity: 10
+  - type: apples
+    quantity: 5
+  - type: eggs
+    quantity: 50
+  - type: butter
+    quantity: 1
+  - type: bacon
+    quantity: 1000
+  - type: shallots
+    quantity: 12
